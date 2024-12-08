@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-from tft_prob import monte_carlo_shop_roll_odd
+from tft_prob import monte_carlo_shop_roll_odd_optimized
 
 # Streamlit UI
 st.title("TFT Shop Roll Monte Carlo Simulation - By Clib")
@@ -16,24 +16,12 @@ gold = st.number_input("Gold", min_value=2, value=10, step=2)
 # Run the simulation
 if st.button("Run Simulation"):
     # Call the monte_carlo_shop_roll_odd function
-    df = monte_carlo_shop_roll_odd(level, target_unit_cost, gold, target_unit_out_count, cost_unit_out_count)
-
-    # Extracting the at_least_x_target_champion_odds
-    iterations = 1000
-    at_least_x_target_champion_odds = {
-        1: df[df["target_unit_count"] >= 1].shape[0] / iterations,
-        2: df[df["target_unit_count"] >= 2].shape[0] / iterations,
-        3: df[df["target_unit_count"] >= 3].shape[0] / iterations,
-        4: df[df["target_unit_count"] >= 4].shape[0] / iterations,
-        5: df[df["target_unit_count"] >= 5].shape[0] / iterations,
-        6: df[df["target_unit_count"] >= 6].shape[0] / iterations,
-        7: df[df["target_unit_count"] >= 7].shape[0] / iterations,
-        8: df[df["target_unit_count"] >= 8].shape[0] / iterations,
-        9: df[df["target_unit_count"] >= 9].shape[0] / iterations,
-    }
+    # df, at_least_x_target_champion_odds = monte_carlo_shop_roll_odd_optimized(level, target_unit_cost, gold, target_unit_out_count, cost_unit_out_count)
+    odds_dict = monte_carlo_shop_roll_odd_optimized(level, target_unit_cost, gold, target_unit_out_count, cost_unit_out_count)
 
     # Convert odds to a DataFrame for visualization
-    odds_df = pd.DataFrame(list(at_least_x_target_champion_odds.items()), columns=["Number of Champions", "Odds"])
+    #odds_df = pd.DataFrame(list(at_least_x_target_champion_odds.items()), columns=["Number of Champions", "Odds"])
+    odds_df = pd.DataFrame(list(odds_dict.items()), columns=["Number of Champions", "Odds"])
 
     # Create a bar chart with Altair
     chart = (
