@@ -130,7 +130,7 @@ def monte_carlo_shop_roll_odd(level, cost, gold, target_unit_out_count, cost_uni
     return df
 
 def monte_carlo_shop_roll_odd_optimized(level, cost, gold, target_unit_out_count, cost_unit_out_count):
-    iterations = 1000
+    iterations = 10000
     total_rolls = int(gold / 2) * 5
 
     # Precompute probabilities
