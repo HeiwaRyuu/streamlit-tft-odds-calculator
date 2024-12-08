@@ -4,7 +4,7 @@ import numpy as np
 from tft_prob import monte_carlo_shop_roll_odd
 
 # Streamlit UI
-st.title("TFT Shop Roll Monte Carlo Simulation")
+st.title("TFT Shop Roll Monte Carlo Simulation - By Clib")
 
 # Input fields
 level = st.slider("Level", 1, 10, 1)
