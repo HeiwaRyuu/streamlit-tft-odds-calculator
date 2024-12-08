@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import altair as alt
 from tft_prob import monte_carlo_shop_roll_odd
 
 # Streamlit UI
@@ -35,8 +35,24 @@ if st.button("Run Simulation"):
     # Convert odds to a DataFrame for visualization
     odds_df = pd.DataFrame(list(at_least_x_target_champion_odds.items()), columns=["Number of Champions", "Odds"])
 
-    # Display bar chart
-    st.bar_chart(odds_df.set_index("Number of Champions"))
+    # Create a bar chart with Altair
+    chart = (
+        alt.Chart(odds_df)
+        .mark_bar()
+        .encode(
+            x=alt.X("Number of Champions:O", title="Number of Champions"),
+            y=alt.Y("Odds:Q", title="Probability"),
+            tooltip=["Number of Champions", "Odds"]
+        )
+        .properties(
+            title="Chances to Roll at Least X of Your Desired Champion",
+            width=600,
+            height=400
+        )
+    )
+
+    # Display the chart
+    st.altair_chart(chart, use_container_width=True)
 
     # Display raw data
     st.dataframe(odds_df)
