@@ -9,8 +9,8 @@ st.title("TFT Shop Roll Monte Carlo Simulation - By Clib")
 # Input fields
 level = st.slider("Level", 1, 10, 1)
 target_unit_cost = st.slider("Target Unit Cost", 1, 5, 1)
-target_unit_out_count = st.number_input("Target Unit Out Count", min_value=0, value=0, step=1)
-cost_unit_out_count = st.number_input("Cost Unit Out Count", min_value=0, value=0, step=1)
+target_unit_out_count = st.number_input("Number of copies of the desired Unit already out of the pool:", min_value=0, value=0, step=1)
+cost_unit_out_count = st.number_input("Number of units of the same cost already out of the pool:", min_value=0, value=0, step=1)
 gold = st.number_input("Gold", min_value=2, value=10, step=2)
 
 # Run the simulation
