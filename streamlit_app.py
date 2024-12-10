@@ -22,14 +22,17 @@ if st.button("Run Simulation"):
     # Convert odds to a DataFrame for visualization
     #odds_df = pd.DataFrame(list(at_least_x_target_champion_odds.items()), columns=["Number of Champions", "Odds"])
     odds_df = pd.DataFrame(list(odds_dict.items()), columns=["Number of Champions", "Odds"])
+    pctg_df = odds_df.copy()
+    decimals = 2
+    pctg_df["Odds"] = (pctg_df['Odds']*100).apply(lambda x: round(x, decimals)).astype("str") + "%"
 
-    # Create a bar chart with Altair
+    # Create a horizontal bar chart with Altair
     chart = (
         alt.Chart(odds_df)
         .mark_bar()
         .encode(
-            x=alt.X("Number of Champions:O", title="Number of Champions"),
-            y=alt.Y("Odds:Q", title="Probability"),
+            y=alt.Y("Number of Champions:O", title="Number of Champions", sort="x"),
+            x=alt.X("Odds:Q", title="Probability"),
             tooltip=["Number of Champions", "Odds"]
         )
         .properties(
@@ -43,4 +46,15 @@ if st.button("Run Simulation"):
     st.altair_chart(chart, use_container_width=True)
 
     # Display raw data
-    st.dataframe(odds_df)
+    # Center and display the table with fixed width
+    table_html = pctg_df.to_html(index=False)  # Convert DataFrame to HTML
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: center;">
+            <div>
+                {table_html}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
